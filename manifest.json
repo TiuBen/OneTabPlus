@@ -1,0 +1,52 @@
+{
+    "manifest_version": 2,
+    "name": "TestMyTab",
+    "version": "0.01",
+    "description": "OnnTab Plus  Add Sorted Urls ",
+    "icons": {
+        "48": "icons/chillout-48.png"
+    },
+    "browser_action": {
+        "default_icon": {
+            "48": "icons/chillout-48.png"
+        },
+        "browser_style": true,
+        "default_title": "分类的OneTab",
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "find",
+        "tabs",
+        "tabHide",
+        "activeTab",
+        "contextMenus",
+        "menus",
+        "menus.overrideContext",
+        "notifications",
+        "alarms",
+        "storage",
+        "unlimitedStorage"
+    ],
+    "background": {
+        "scripts": [
+            "background.js"
+        ]
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "jquery.js","content-script.js"
+            ],
+            "run_at": "document_start"
+        }
+    ],
+    "applications": {
+        "gecko": {
+           "id": "8b9a96b59e81137b58f4135a9d157adc603b4ae5@temporary-addon"
+        }
+     }
+
+}
