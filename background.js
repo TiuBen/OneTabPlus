@@ -125,6 +125,22 @@ browser.contextMenus.onShown.addListener(async (info, tab) => {
     // sending.then(handleResponse, handleError);
 });
 
+function onRemoved() {
+    console.log(`Removed`);
+}
+
+function onError(error) {
+    console.log(`Error: ${error}`);
+}
+function removeTabs(tabs = []) {
+    console.log("removeTabs");
+    console.log(typeof tabs);
+    console.log(tabs);
+    tabs.forEach((tab) => {
+        browser.tabs.remove(tab.id).then(onRemoved, onError);
+    });
+}
+
 browser.contextMenus.onClicked.addListener(async (info, tab) => {
     console.log(`Clicked at ${info} in tab at index ${tab.index}`);
     console.log(info);
@@ -140,13 +156,14 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
         currentTab = value;
         currentTabIndex = currentTab[0].index;
     });
-    var otherTabs;
+
+    var otherTabs; // 当前窗口,除现在正在打开的tab,之外的tabs
     await browser.tabs.query({ currentWindow: true, active: false }).then((value) => {
         otherTabs = value;
     });
 
-    var leftTabs = allTabs.slice(0, currentTabIndex);
-    var rightTabs = allTabs.slice(currentTabIndex + 1);
+    var leftTabs = allTabs.slice(0, currentTabIndex); // 此标签左侧的tabs
+    var rightTabs = allTabs.slice(currentTabIndex + 1); // 此标签右侧的tabs
 
     if (info.menuItemId === "0") {
         if (OneTab) {
@@ -156,7 +173,7 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
         } else {
             console.log("创建One Tab主页");
             var creating = browser.tabs.create({
-                url: "test.html",
+                url: " http://localhost:3000/",
             });
             function onCreated(tab) {
                 console.log("one tab 创建好了");
@@ -174,18 +191,19 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
     if (info.menuItemId === "1") {
         //  发送全部标签至MySortTab
         console.log("发送全部标签至MySortTab");
-        var allTabUrl = [];
-        allTabs.forEach((tab) => {
-            allTabUrl.push({ title: tab.title, url: tab.url });
-        });
-        // browser.tabs.sendMessage(OneTabID, {
-        //     allTabUrl,
+        removeTabs(allTabs);
+        allTabs.forEach(tab=>{postToServer(null,null,tab)})
+        // postToServer(allTabs);
+        // var allTabUrl = [];
+        // allTabs.forEach((tab) => {
+        //     allTabUrl.push({ title: tab.title, url: tab.url });
         // });
     }
     if (info.menuItemId === "2") {
         //  仅发送此标签MySortTab
         console.log("仅发送此标签MySortTab");
         var allTabUrl = [];
+        removeTabs(currentTab);
         allTabUrl.push({ title: currentTab[0].title, url: currentTab[0].url });
         // browser.tabs.sendMessage(OneTabID, {
         //     allTabUrl,
@@ -194,6 +212,7 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
     if (info.menuItemId === "3") {
         //  发送除此标签页以外的全部标签页至MySortTab
         var allTabUrl = [];
+        removeTabs(otherTabs);
         otherTabs.forEach((tab) => {
             allTabUrl.push({ title: tab.title, url: tab.url });
         });
@@ -204,6 +223,7 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
     if (info.menuItemId === "4") {
         //  发送左侧标签页至MySortTab
         var allTabUrl = [];
+        removeTabs(leftTabs);
         leftTabs.forEach((tab) => {
             allTabUrl.push({ title: tab.title, url: tab.url });
         });
@@ -214,98 +234,103 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
     if (info.menuItemId === "5") {
         //  发送右侧标签页至MySortTab
         var allTabUrl = [];
+        removeTabs(rightTabs);
         rightTabs.forEach((tab) => {
             allTabUrl.push({ title: tab.title, url: tab.url });
         });
-
     }
 
-    if (allTabUrl.length !== 0) {
-        console.log("allTabUrl");
-        console.log(allTabUrl);
-        browser.tabs.sendMessage(OneTabID, { allTabUrl }, function () {
-            console.log(" browser.tabs.sendMessage()以后的response ");
-        });
-    } else {
-        console.error("something wrong");
-    }
-    browser.storage.local.set({ allTabUrl });
-    console.log("background log allTabs>>>>");
+    console.log("test alltabs ");
     console.log(allTabs);
+
+
 });
 
 //
-// test storage
-
-const fooData = [
-    {
-        url: "https://www.douban.com/",
-        title: "豆瓣的链接",
-    },
-    {
-        url: "https://www.bilibili.com",
-        title: "哔哩哔哩的链接",
-    },
-];
-
-browser.storage.local.set({
-    kitten: { name: "Mog", eats: "mice" },
-    monster: { name: "Kraken", eats: "people" },
-});
-
-browser.storage.local.get().then((i) => {
-    console.log(i);
-});
-
-//
-
-//
-let SomethingInBackground = ["bc1", "bc2", "bc3"];
-function AfunctionInBackground() {
-    console.log("在background中定义的function");
-}
-
-function SendMessageToExtensionPage() {
-    console.log("SendMessageToExtensionPage");
-    var myPort = browser.runtime.connect({ name: "port-from-cs" });
-
-    myPort.postMessage({ greeting: "hello from back " });
-}
-
-var cakeNotification = "cake-notification";
-
-/*
-
-CAKE_INTERVAL is set to 6 seconds in this example.
-Such a short period is chosen to make the extension's behavior
-more obvious, but this is not recommended in real life.
-Note that in Chrome, alarms cannot be set for less
-than a minute.
-
-*/
-var CAKE_INTERVAL = 0.1;
-
-browser.alarms.create("", { periodInMinutes: CAKE_INTERVAL });
-
-// browser.alarms.onAlarm.addListener(function (alarm) {
-//     browser.notifications.create(cakeNotification, {
-//         type: "basic",
-//         iconUrl: browser.runtime.getURL("icons/chillout-48.png"),
-//         title: "Time for cake!",
-//         message: "Something something cake",
-//     });
-// });
-
-// browser.browserAction.onClicked.addListener(() => {
-//     var clearing = browser.notifications.clear(cakeNotification);
-//     clearing.then(() => {
-//         console.log("cleared");
-//     });
-// });
-
 function handleMessage(request, sender, sendResponse) {
     console.log("Message from the content script: " + request.greeting);
     sendResponse({ response: "Response from background script" });
 }
 
 browser.runtime.onMessage.addListener(handleMessage);
+
+// 监听每一个tab 建立
+// 在tab流浪的网页变化后 继续监听新的网页
+function handleCreated(tab) {
+    console.log(`新tab ${tab.id}`);
+    console.log(tab);
+}
+
+browser.tabs.onCreated.addListener(handleCreated);
+
+const filter = {
+    properties: [
+        // "status",
+        // "attention",
+        // "audible",
+        // "discarded",
+        "favIconUrl",
+        // "hidden",
+        "isArticle",
+        // "mutedInfo",
+        // "pinned",
+        // "sharingState",
+        "status",
+        "title",
+        "url",
+    ],
+};
+
+// 防抖动
+
+//
+function postToServer(tabId, changeInfo, info) {
+    fetch("http://localhost:3500/", {
+        method: "POST", // or 'PUT'
+        mode: "cors", // no-cors, *cors, same-origin
+        headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "http://localhost:3000/",
+        },
+        body: JSON.stringify(info),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("Success:", data);
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+}
+
+function debounce(func, delay) {
+    console.log("debounce");
+
+    let timeout;
+    return function (e) {
+        clearTimeout(timeout);
+        let args = arguments;
+        timeout = setTimeout(() => {
+            func.apply(this, args);
+        }, delay);
+    };
+}
+
+function throttle(callback, wait = 300, ...params) {
+    console.log("throttle");
+
+    let timer = 0;
+    return function (eventParam) {
+        if (timer) return;
+        timer = setTimeout(() => {
+            timer = 0;
+            callback.call(this, eventParam, ...params);
+        }, wait);
+    };
+}
+
+function handleUpdated(tabId, changeInfo, tabInfo) {
+    postToServer(tabId, changeInfo, tabInfo);
+}
+
+browser.tabs.onUpdated.addListener(handleUpdated, filter);

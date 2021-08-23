@@ -1,0 +1,43 @@
+/* #contentAreaDiv {
+	padding-top: 0px;
+	padding-bottom: 30px;
+	padding-left: 0px;
+}
+
+.tabGroup{
+        padding-top: 15px;
+        padding-left: 0px;
+}
+.tabList{
+        padding-left: 12px;
+        padding-right: 20px;
+        padding-top: 12px;
+}
+
+.tab {
+    display: table-row;
+}
+
+.clickable {
+	cursor: pointer;
+	color: #234da7;
+}
+
+#test-mousescroll{
+    width: 100%;
+    height: 30px;
+    background-color: lightgrey;
+}
+
+.h-timeline {
+    display: inline-block;
+    position: relative;
+}
+
+.h-timeline::before{
+    content: "";
+    width: 0;
+    height: 0;
+    border: 1px solid black;
+
+} */

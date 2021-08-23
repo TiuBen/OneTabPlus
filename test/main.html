@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script type="module" src="main.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.js" integrity="sha512-z8IfZLl5ZASsWvr1syw5rkpo2HKBexjwzYDaUkIfoWo0aEqL/MgGKniDouh5DmsD9YrisbM+pihyCKIHL9VucQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <link rel="stylesheet" type="text/css" href="main.css">
+        <script>
+            console.log(moment().format());
+        </script>
+        <style>
+            #contentAreaDiv {
+                padding-top: 0px;
+                padding-bottom: 30px;
+                padding-left: 0px;
+            }
+
+            .tabGroup {
+                padding-top: 15px;
+                padding-left: 0px;
+            }
+
+            .tabList {
+                padding-left: 12px;
+                padding-right: 20px;
+                padding-top: 12px;
+            }
+
+            .tab {
+                display: table-row;
+            }
+
+            .clickable {
+                cursor: pointer;
+                color: #234da7;
+            }
+
+            #test-mousescroll {
+                width: 100%;
+                background-color: lightgrey;
+            }
+            #test-mousescroll>* {
+                display: inline;
+            }
+            .button{
+                box-sizing: border-box;
+                border: #234da7 1px solid;
+            }
+            .h-timeline {
+                display: inline-block;
+                position: relative;
+            }
+
+            .h-timeline::before {
+                content: "";
+                /* width: 0; */
+                /* height: 0; */
+                border: 2px solid black;
+
+            }
+        </style>
+    </head>
+
+    <body style="margin: 0;padding: 0;font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;font-weight: 400;font-size: 14px;">
+        <div>
+            测试 监听滚动 模块
+            <div id='debug'>全局变量 </div>
+            <div id="test-mousescroll">
+                <div class="button">年</div>
+                <div class="button">月</div>
+                <div  id="detail-time-container"></div>
+                <div class="button">右移 天</div>
+                <div class="button">右移 月</div>
+                <!--<span></span>
+                <div class="h-timeline">2010</div>
+                <span></span>
+                <div class="h-timeline">2011</div>
+                <span></span>
+                <div class="h-timeline">2012</div>
+                <span></span>
+                <div class="h-timeline">2013</div>
+                <span></span>
+                <div class="h-timeline">2014</div>
+                <span></span>
+                <div class="h-timeline">2015</div>
+                <span></span>
+                <div class="h-timeline">2016</div>
+                <span></span>
+                <div class="h-timeline">2017</div>
+                <span></span>
+                <div class="h-timeline">2018</div>
+                <span></span>
+                <div class="h-timeline">2019</div>
+                <span></span>
+                <div class="h-timeline">2020</div>
+                <span></span>
+                <div class="h-timeline">2021</div> -->
+            </div>
+        </div>
+
+        <div contentAreaDiv>
+            <div>
+                <div class="tabGroup">
+                    <div class="tab">
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="container" class="tabList"></div>
+
+
+
+    </body>
+
+</html>

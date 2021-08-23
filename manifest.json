@@ -25,7 +25,10 @@
         "notifications",
         "alarms",
         "storage",
-        "unlimitedStorage"
+        "unlimitedStorage",
+        "nativeMessaging",
+        "webRequest",
+        "<all_urls>"
     ],
     "background": {
         "scripts": [
@@ -40,9 +43,10 @@
             "js": [
                 "jquery.js","content-script.js"
             ],
-            "run_at": "document_start"
+            "run_at": "document_end"
         }
     ],
+    "content_security_policy": "default-src 'self' 'unsafe-inline';script-src 'self'",
     "applications": {
         "gecko": {
            "id": "8b9a96b59e81137b58f4135a9d157adc603b4ae5@temporary-addon"
