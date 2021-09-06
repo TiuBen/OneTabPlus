@@ -200,71 +200,27 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
         //  发送全部标签至MySortTab
         console.log("发送全部标签至MySortTab");
         removeTabs(allTabs);
-
-        // allTabs.forEach(tab=>{postToServer('tabs',null,null,tab)})
-        // postToServer(allTabs);
-        // var allTabUrl = [];
-        // allTabs.forEach((tab) => {
-        //     allTabUrl.push({ title: tab.title, url: tab.url });
-        // });
     }
     if (info.menuItemId === "2") {
         //  仅发送此标签MySortTab
         console.log("仅发送此标签MySortTab");
-        var allTabUrl = [];
         removeTabs(currentTab);
-        // currentTab.forEach(tab=>{postToServer('tabs',null,null,tab)})
-        
-        // allTabUrl.push({ title: currentTab[0].title, url: currentTab[0].url });
-        // browser.tabs.sendMessage(OneTabID, {
-        //     allTabUrl,
-        // });
     }
     if (info.menuItemId === "3") {
         //  发送除此标签页以外的全部标签页至MySortTab
         var allTabUrl = [];
         removeTabs(otherTabs);
-        // otherTabs.forEach(tab=>{postToServer('tabs',null,null,tab)})
-
-        // otherTabs.forEach((tab) => {
-        //     allTabUrl.push({ title: tab.title, url: tab.url });
-        // });
-        // browser.tabs.sendMessage(OneTabID, {
-        //     allTabUrl,
-        // });
     }
     if (info.menuItemId === "4") {
         //  发送左侧标签页至MySortTab
         var allTabUrl = [];
         removeTabs(leftTabs);
-        // leftTabs.forEach(tab=>{postToServer('tabs',null,null,tab)})
-
-        // leftTabs.forEach((tab) => {
-        //     allTabUrl.push({ title: tab.title, url: tab.url });
-        // });
-        // browser.tabs.sendMessage(OneTabID, {
-        //     allTabUrl,
-        // });
     }
     if (info.menuItemId === "5") {
         //  发送右侧标签页至MySortTab
         var allTabUrl = [];
         removeTabs(rightTabs);
-        // rightTabs.forEach(tab=>{postToServer('tabs',null,null,tab)})
-
-        // rightTabs.forEach((tab) => {
-        //     allTabUrl.push({ title: tab.title, url: tab.url });
-        // });
     }
-
-    // console.log("test alltabs ");
-    // console.log(allTabs);
-    var clickedTime=new Date();
-    console.log(`点击OneTab插件的时间${clickedTime.toLocaleTimeString()}`); 
-    // postToServer('time',null,null,{'clickedTime':clickedTime.toLocaleDateString()});
-
-    wsPost({ 'type':'time','clickedTime':clickedTime.toLocaleDateString()})   
-    // wsPost(tab); 
 });
 
 //
@@ -301,11 +257,6 @@ const filter = {
         "url",
     ],
 };
-
-// 防抖动
-
-
-
 
 function postToServer(url,tabId, changeInfo, info) {
     fetch(`http://localhost:3500/${url}`, {

@@ -1,26 +1,8 @@
-import logo from "./logo.svg";
 import "./App.css";
 import { useState, useCallback, useEffect, useLayoutEffect } from "react";
 import Calendar from "./Components/Calendar";
-import List from "./Components/List";
-import TabInfoButtons from './Components/TabInfoButtons';
-import TabElement from "./Components/TabElement";
 import Tab from "./Components/Tab";
 
-function debounce(func, delay) {
-    var timeout;
-    return function (e) {
-        console.log("清除", timeout, e.target.value);
-        clearTimeout(timeout);
-        var context = this,
-            args = arguments;
-        console.log("新的", timeout, e.target.value);
-        timeout = setTimeout(function () {
-            console.log("----");
-            func.apply(context, args);
-        }, delay);
-    };
-}
 
 const _temp = [
     {
@@ -278,16 +260,6 @@ function App() {
         };
     }, []);
 
-    // var TabElements=[];
-
-    // if (Array.isArray(tabs)) {
-    //     tabs.map((t) => {
-    //         if (t !== null) {
-    //             TabElements.push( <TabElement  value={t} />)
-    //         }
-    //     });
-    // } else {
-    // }
 
 //
 // 对数据进行次整理
@@ -338,8 +310,8 @@ function App() {
     return sortedTabs;
  }
 
- console.log('sorted tabs' );
- console.log(sortTabsArray(_temp));
+//  console.log('sorted tabs' );
+//  console.log(sortTabsArray(_temp));
 
 
 
@@ -350,20 +322,6 @@ function App() {
                 return <Tab  time={segment.createTime} tabList={segment.tabList} />
             })
         }    
-
-            <hr />
-
-            <a class="clickable tabLink" href="https://www.zhihu.com/question/27176975">
-                中国人均这么穷为何物价反而比欧美还贵很多？ - 知乎
-            </a>
-            <a class="clickable tabLink" href="https://www.zhihu.com/question/27176975">
-                中国人均这么穷为何物价反而比欧美还贵很多？ - 知乎
-            </a>
-            <a class="clickable tabLink" href="https://www.zhihu.com/question/27176975">
-                中国人均这么穷为何物价反而比欧美还贵很多？ - 知乎
-            </a>
-            <hr />
-            <List />
             <Calendar />
         </div>
     );
