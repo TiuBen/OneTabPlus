@@ -48,6 +48,11 @@ function createMyOneTabMenus() {
     });
 }
 createMyOneTabMenus();
+//
+const webSocket = new WebSocket("ws://localhost:3500");
+function wsPost(info) {
+   webSocket.send(JSON.stringify(info));
+}
 
 var OneTab;
 var OneTabID;
@@ -137,6 +142,9 @@ function removeTabs(tabs = []) {
     console.log(typeof tabs);
     console.log(tabs);
     tabs.forEach((tab) => {
+        //
+        wsPost(tab);
+        //
         browser.tabs.remove(tab.id).then(onRemoved, onError);
     });
 }
@@ -192,7 +200,8 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
         //  发送全部标签至MySortTab
         console.log("发送全部标签至MySortTab");
         removeTabs(allTabs);
-        allTabs.forEach(tab=>{postToServer(null,null,tab)})
+
+        // allTabs.forEach(tab=>{postToServer('tabs',null,null,tab)})
         // postToServer(allTabs);
         // var allTabUrl = [];
         // allTabs.forEach((tab) => {
@@ -204,7 +213,9 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
         console.log("仅发送此标签MySortTab");
         var allTabUrl = [];
         removeTabs(currentTab);
-        allTabUrl.push({ title: currentTab[0].title, url: currentTab[0].url });
+        // currentTab.forEach(tab=>{postToServer('tabs',null,null,tab)})
+        
+        // allTabUrl.push({ title: currentTab[0].title, url: currentTab[0].url });
         // browser.tabs.sendMessage(OneTabID, {
         //     allTabUrl,
         // });
@@ -213,9 +224,11 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
         //  发送除此标签页以外的全部标签页至MySortTab
         var allTabUrl = [];
         removeTabs(otherTabs);
-        otherTabs.forEach((tab) => {
-            allTabUrl.push({ title: tab.title, url: tab.url });
-        });
+        // otherTabs.forEach(tab=>{postToServer('tabs',null,null,tab)})
+
+        // otherTabs.forEach((tab) => {
+        //     allTabUrl.push({ title: tab.title, url: tab.url });
+        // });
         // browser.tabs.sendMessage(OneTabID, {
         //     allTabUrl,
         // });
@@ -224,9 +237,11 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
         //  发送左侧标签页至MySortTab
         var allTabUrl = [];
         removeTabs(leftTabs);
-        leftTabs.forEach((tab) => {
-            allTabUrl.push({ title: tab.title, url: tab.url });
-        });
+        // leftTabs.forEach(tab=>{postToServer('tabs',null,null,tab)})
+
+        // leftTabs.forEach((tab) => {
+        //     allTabUrl.push({ title: tab.title, url: tab.url });
+        // });
         // browser.tabs.sendMessage(OneTabID, {
         //     allTabUrl,
         // });
@@ -235,15 +250,21 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
         //  发送右侧标签页至MySortTab
         var allTabUrl = [];
         removeTabs(rightTabs);
-        rightTabs.forEach((tab) => {
-            allTabUrl.push({ title: tab.title, url: tab.url });
-        });
+        // rightTabs.forEach(tab=>{postToServer('tabs',null,null,tab)})
+
+        // rightTabs.forEach((tab) => {
+        //     allTabUrl.push({ title: tab.title, url: tab.url });
+        // });
     }
 
-    console.log("test alltabs ");
-    console.log(allTabs);
+    // console.log("test alltabs ");
+    // console.log(allTabs);
+    var clickedTime=new Date();
+    console.log(`点击OneTab插件的时间${clickedTime.toLocaleTimeString()}`); 
+    // postToServer('time',null,null,{'clickedTime':clickedTime.toLocaleDateString()});
 
-
+    wsPost({ 'type':'time','clickedTime':clickedTime.toLocaleDateString()})   
+    // wsPost(tab); 
 });
 
 //
@@ -283,9 +304,11 @@ const filter = {
 
 // 防抖动
 
-//
-function postToServer(tabId, changeInfo, info) {
-    fetch("http://localhost:3500/", {
+
+
+
+function postToServer(url,tabId, changeInfo, info) {
+    fetch(`http://localhost:3500/${url}`, {
         method: "POST", // or 'PUT'
         mode: "cors", // no-cors, *cors, same-origin
         headers: {
@@ -330,7 +353,7 @@ function throttle(callback, wait = 300, ...params) {
 }
 
 function handleUpdated(tabId, changeInfo, tabInfo) {
-    postToServer(tabId, changeInfo, tabInfo);
+    postToServer('',tabId, changeInfo, tabInfo);
 }
 
-browser.tabs.onUpdated.addListener(handleUpdated, filter);
+// browser.tabs.onUpdated.addListener(handleUpdated, filter);
