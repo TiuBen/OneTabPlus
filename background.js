@@ -46,6 +46,11 @@ function createMyOneTabMenus() {
         title: "在MySortTab排除此标签页",
         contexts: ["all"],
     });
+    browser.contextMenus.create({
+        id: "7",
+        title: "test new  tab",
+        contexts: ["all"],
+    });
 }
 createMyOneTabMenus();
 //
@@ -220,6 +225,15 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
         //  发送右侧标签页至MySortTab
         var allTabUrl = [];
         removeTabs(rightTabs);
+    }
+    if (info.menuItemId === "7") {
+        console.log('info.menuItemId === "7"');
+       browser.tabs.create(
+            {
+                url:"https://www.wikipedia.org/" ,
+                active:false,
+            }
+          )
     }
 });
 

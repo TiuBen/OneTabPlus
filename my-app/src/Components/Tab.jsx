@@ -1,35 +1,39 @@
+import React, { useCallback } from "react";
 import TabInfoButtons from "./TabInfoButtons";
 import TabElement from "./TabElement";
-function CSSstring(string) {
-    const css_json = `{"${string
-      .replace(/; /g, '", "')
-      .replace(/: /g, '": "')
-      .replace(";", "")}"}`;
-  
-    const obj = JSON.parse(css_json);
-  
-    const keyValues = Object.keys(obj).map((key) => {
-      var camelCased = key.replace(/-[a-z]/g, (g) => g[1].toUpperCase());
-      return { [camelCased]: obj[key] };
-    });
-    return Object.assign({}, ...keyValues);
-  }
-  
+import "./Tab.css";
+import { CSSstring } from "../tools/tools";
+
 export default function Tab(props) {
-    const { time, tabList } = props;
-    console.log('Tab props');    
-    console.log(props);    
+    const { time, tabList, removeAll, restoreAll,removeElement } = props;
+
+    const elementClick = useCallback(
+        (e) => {
+            console.log("在Tab中的 onClick");
+            removeElement(e);
+        },
+        [0]
+    );
+
+
 
     return (
-        <div style= {{'padding-top': '15px', 'padding-left': '0px'}} class="tabGroup">
-            <TabInfoButtons createTime={time} count={tabList.length}/>
-        <div style={CSSstring("padding-left: 12px; padding-right: 20px; padding-top: 12px;")} class="tabList">
+        <div class="tabGroup">
+            <TabInfoButtons createTime={time} count={tabList.length} removeAll={removeAll} restoreAll={restoreAll} />
+            <div class="tabList">
+                {tabList.map((t, index) => {
+                    // return <TabElement value={t} key={index} removeElement={(e)=> elementClick(e)} />;
+                    return <TabElement value={t} key={index} removeElement={removeElement} />;
 
-            {tabList.map((t,index) => {
-                return <TabElement value={t} key={index}/>;
-            })}
+                })}
+            </div>
+            <div style={CSSstring("height: 19px; padding-left: 12px;")}>
+                <div
+                    style={CSSstring(
+                        "background: rgba(0, 0, 0, 0) repeating-linear-gradient(-45deg, rgb(245, 249, 255), rgb(245, 249, 255) 10px, rgb(255, 255, 255) 10px, rgb(255, 255, 255) 20px) repeat scroll 0% 0%;"
+                    )}
+                ></div>
+            </div>
         </div>
-        </div>
-
     );
 }

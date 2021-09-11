@@ -3,5 +3,34 @@
     padding-left: 0px;
 }
 
-.
+.clickable {
+    cursor: pointer;
+    color: #234da7;
+}
 
+.nameThisTabGroupButton,
+.toggleLockTabGroupButton,
+.toggleStarTabGroupButton {
+    display: inline-block;
+    padding-bottom: 6px;
+    font-size: 11px;
+    white-space: pre;
+}
+
+.moreButton {
+    display: inline-block;
+    position: relative;
+    font-size: 11px;
+}
+
+.shareAsWebPageButton,.restoreAllButton,.deleteAllButton{
+    padding-right: 30px; display: inline-block; font-size: 11px;
+}
+
+.tabList{
+    padding-left: 12px; padding-right: 20px; padding-top: 12px;
+}
+
+.tabLink{
+    padding-right: 12px; text-decoration: none
+}
