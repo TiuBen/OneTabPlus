@@ -23,14 +23,57 @@
     font-size: 11px;
 }
 
-.shareAsWebPageButton,.restoreAllButton,.deleteAllButton{
-    padding-right: 30px; display: inline-block; font-size: 11px;
+.shareAsWebPageButton,
+.restoreAllButton,
+.deleteAllButton {
+    padding-right: 30px;
+    display: inline-block;
+    font-size: 11px;
 }
 
-.tabList{
-    padding-left: 12px; padding-right: 20px; padding-top: 12px;
+.tabList {
+    padding-left: 12px;
+    padding-right: 20px;
+    padding-top: 12px;
 }
 
-.tabLink{
-    padding-right: 12px; text-decoration: none
+.tabLink {
+    padding-right: 12px;
+    text-decoration: none
+}
+
+.tab {
+    display: table-row;
+}
+
+.tab>:first-child {
+    background: rgba(0, 0, 0, 0) repeating-linear-gradient(-45deg, rgb(245, 249, 255), rgb(245, 249, 255) 10px, rgb(255, 255, 255) 10px, rgb(255, 255, 255) 20px) repeat scroll 0% 0%;
+}
+
+.tab>:nth-child(2) {
+    display: inline-block;
+    padding: 4px 14px 4px 55px;
+    position: relative;
+    font-size: 13px;
+    word-break: break-all;
+}
+
+.crossImg {
+    position: absolute;
+    top: 6px;
+    left: 0px;
+    width: 14px;
+    height: 13px;
+    vertical-align: middle;
+    padding-top: 2px;
+    visibility: hidden;
+    cursor: pointer
+}
+
+.crossImg:hover {
+    visibility: visible;
+}
+
+.tab:hover .crossImg {
+    visibility: visible;
 }

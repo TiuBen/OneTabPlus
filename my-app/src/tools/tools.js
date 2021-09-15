@@ -1,4 +1,20 @@
-export function sortTabsArray(tabs = []) {
+ //
+// 对数据进行次整理
+//
+// const whatIWant=[
+//     {
+//         createTime:1630774874645,
+//         tabList:[
+//             {},
+//             {},
+//             {}
+//         ]
+//     },//segment 1
+//     {},//segment 2
+//     {},//segment 3
+// ]
+ 
+ function sortTabsArray(tabs = []) {
     var sortedTabs = [];
     var lastAccessed = 0;
     var firstSegment = {
@@ -31,7 +47,7 @@ export function sortTabsArray(tabs = []) {
     return sortedTabs;
 }
 
-export const _temp = [
+const _temp = [
     {
         id: 50,
         index: 3,
@@ -251,7 +267,7 @@ export const _temp = [
 ];
 
 
-export function CSSstring(string) {
+function CSSstring(string) {
     const css_json = `{"${string.replace(/; /g, '", "').replace(/: /g, '": "').replace(";", "")}"}`;
 
     const obj = JSON.parse(css_json);
@@ -262,3 +278,6 @@ export function CSSstring(string) {
     });
     return Object.assign({}, ...keyValues);
 }
+
+module.exports={sortTabsArray,_temp,CSSstring}
+

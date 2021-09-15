@@ -5,15 +5,15 @@ import "./Tab.css";
 import { CSSstring } from "../tools/tools";
 
 export default function Tab(props) {
-    const { time, tabList, removeAll, restoreAll,removeElement } = props;
+    const { time, tabList, removeAll, restoreAll,removeElement,ws,changeNeedFetch } = props;
 
-    const elementClick = useCallback(
-        (e) => {
-            console.log("在Tab中的 onClick");
-            removeElement(e);
-        },
-        [0]
-    );
+    // const elementClick = useCallback(
+    //     (e) => {
+    //         console.log("在Tab中的 onClick");
+    //         removeElement(e);
+    //     },
+    //     [0]
+    // );
 
 
 
@@ -22,8 +22,9 @@ export default function Tab(props) {
             <TabInfoButtons createTime={time} count={tabList.length} removeAll={removeAll} restoreAll={restoreAll} />
             <div class="tabList">
                 {tabList.map((t, index) => {
-                    // return <TabElement value={t} key={index} removeElement={(e)=> elementClick(e)} />;
-                    return <TabElement value={t} key={index} removeElement={removeElement} />;
+                    // return <TabElement value={t} key={index} removeElement={(e)=> elementClick(e)}  ws={ws} />;
+                    return <TabElement value={t} key={index} ws={ws} changeNeedFetch={changeNeedFetch}/>;
+                    // return <TabElement value={t} key={index} removeElement={removeElement} />;
 
                 })}
             </div>
